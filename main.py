@@ -8,7 +8,9 @@ def get_base_16_from_2(n: str) -> str:
     deci = int(n,2)
     hexi = hex(deci)
     # Aici am convertit string-ul de intrare cu funcția int() în baza 10, iar apoi in baza hexazecimală cu funcția hex().
+    # Am folosit hexi[2:] deoarece conversia din baza 2 in baza 16 îi atribuie string-ului un prefix '0x', așa ca am decis să tai primele 2 caractere din string.
     return hexi[2:]
+
 
 def test_get_base_16_from_2():
     '''
@@ -28,21 +30,22 @@ def get_n_choose_k(n: int, k: int) -> int:
     :return:
     '''
     p = n - k
-    nfac=1
-    kfac=1
-    pfac=1
-    # Aici am creat variabilele nfac, kfac și pfac pentru a reprezenta n!, k!, si p! = (n-k)!. În final am folosit formula Cn luate cate k= n!/k!(n-k)!.
+    n_fac=1
+    k_fac=1
+    p_fac=1
+    # Aici am creat variabilele 'n_fac', 'k_fac' și 'p_fac' pentru a reprezenta n!, k!, si p! = (n-k)!.
+    # În final am folosit formula combinări de n luate câte k = n! / k!(n - k)!, valoare salvată în variabila 'combin'.
     while n > 1:
-        nfac = nfac * n
+        n_fac = n_fac * n
         n-=1
     while k > 1:
-        kfac = kfac * k
+        k_fac = k_fac * k
         k-=1
     while p > 1:
-        pfac = pfac * p
+        p_fac = p_fac * p
         p-=1
-    comb = nfac // (pfac * kfac)
-    return comb
+    combin = n_fac // (p_fac * k_fac)
+    return combin
 
 def test_get_n_choose_k():
     '''
@@ -61,17 +64,16 @@ def get_leap_years(start: int, end: int) -> list[int]:
     :param end:
     :return:
     '''
-    start1=start
-    end1=end
-    a = []
-    # Aici am creat o lista în care să rețin anii bisecți cuprinși în intervalul anilor dați. Am verificat mai apoi proprietățile anilor bisecți.
+    bisect = []
+    # Aici am creat o lista 'bisect' în care să rețin anii bisecți cuprinși în intervalul 'start' și 'end'.
+    # Am verificat mai apoi proprietățile anilor bisecți, și i-am salvat în listă.
     while start <= end :
         if start % 4 == 0 and start % 100 != 0:
-            a.append(start)
+            bisect.append(start)
         elif start % 400 == 0 and start % 100 ==0 :
-            a.append(start)
+            bisect.append(start)
         start += 1
-    return a
+    return bisect
 def test_get_leap_years():
     '''
     Teste pentru funcția get_leap_years().
@@ -87,7 +89,6 @@ def main():
     Funcția main pentru rulare de
     :return:
     '''
-    meniu = True
     print(test_get_base_16_from_2())
     print(test_get_n_choose_k())
     print(test_get_leap_years())
@@ -97,37 +98,35 @@ def main():
     3 -> Afișează toți anii bisecți între doi ani dați.)
     x -> Închide.
     ''')
-    while meniu == True :
-        opt = input('Alege una dintre opțiunile afișate mai sus: ')
-        if opt == '1':
-            n = input('Atribuiți un număr în baza 2: ')
-            n1=int(n)
-            ok = True
-            while n1 != 0 and ok == True:
-                c = n1 % 10
-                if c > 1:
-                    ok = False
-                n1 //= 10
-            if ok == True :
-                print(f'Numărul {n} din baza 2 convertit în baza 16 este: {get_base_16_from_2(n)}')
-            else :
-                print('Greșit! Dați un număr în baza 2 valid.')
-        elif opt == '2':
-            n = int(input('Alegeți termenul n: '))
-            k = int(input('Alegeți termenul k: '))
-            if n >= k :
-                print(f'Rezultatul combinărilor de {n} luate câte {k} este: {get_n_choose_k(n, k)}.')
-            else :
-                print('Gresit! Termenul n trebuie să fie mai mare egal ca termenul k.')
-        elif opt == '3':
-            an1 = int(input('Tastați primul an: '))
-            an2 = int(input('Tastați al doilea an: '))
-            if an1 <= an2 :
-                print(f'Lista anilor bisecti cuprinși între anii {an1} și {an2} este: {get_leap_years(an1, an2)}')
-            else :
-                print('Greșit! Atribuiți anii în ordine.')
-        elif opt == 'x':
-            meniu = False
-        meniu = False
+    optiune = input('Alege una dintre opțiunile afișate mai sus: ')
+    if optiune == '1':
+        n = input('Atribuiți un număr în baza 2: ')
+        n1=int(n)
+        ok = True
+        while n1 != 0 and ok == True:
+            c = n1 % 10
+            if c > 1:
+                ok = False
+            n1 //= 10
+        if ok == True :
+            print(f'Numărul {n} din baza 2 convertit în baza 16 este: {get_base_16_from_2(n)}')
+        else :
+            print('Greșit! Dați un număr în baza 2 valid.')
+    elif optiune == '2':
+        n = int(input('Alegeți termenul n: '))
+        k = int(input('Alegeți termenul k: '))
+        if n >= k :
+            print(f'Rezultatul combinărilor de {n} luate câte {k} este: {get_n_choose_k(n, k)}.')
+        else :
+            print('Gresit! Termenul n trebuie să fie mai mare egal ca termenul k.')
+    elif optiune == '3':
+        an1 = int(input('Tastați primul an: '))
+        an2 = int(input('Tastați al doilea an: '))
+        if an1 <= an2 :
+            print(f'Lista anilor bisecti cuprinși între anii {an1} și {an2} este: {get_leap_years(an1, an2)}')
+        else :
+            print('Greșit! Atribuiți anii în ordine.')
+    elif optiune == 'x':
+        print('')
 if __name__ == '__main__':
     main()
