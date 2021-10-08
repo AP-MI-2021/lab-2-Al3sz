@@ -93,9 +93,9 @@ def main():
     print(test_get_n_choose_k())
     print(test_get_leap_years())
     print('''
-    1 -> Convertește un număr din baza 2 în baza 16.)
-    2 -> Calculează combinări de n luate câte k.)
-    3 -> Afișează toți anii bisecți între doi ani dați.)
+    1 -> Convertește un număr din baza 2 în baza 16.
+    2 -> Calculează combinări de n luate câte k.
+    3 -> Afișează toți anii bisecți între doi ani dați.
     x -> Închide.
     ''')
     optiune = input('Alege una dintre opțiunile afișate mai sus: ')
