@@ -8,7 +8,7 @@ def get_base_16_from_2(n: str) -> str:
     deci = int(n,2)
     hexi = hex(deci)
     # Aici am convertit string-ul de intrare cu funcția int() în baza 10, iar apoi in baza hexazecimală cu funcția hex().
-    # Am folosit hexi[2:] deoarece conversia din baza 2 in baza 16 îi atribuie string-ului un prefix '0x', așa ca am decis să tai primele 2 caractere din string.
+    # Am folosit hexi[2:] deoarece conversia din baza 2 in baza 16 îi atribuie string-ului un prefix '0x', așa ca am decis să returnez string-ul fară primele 2 caractere.
     return hexi[2:]
 
 
@@ -89,44 +89,49 @@ def main():
     Funcția main pentru rulare de
     :return:
     '''
-    print(test_get_base_16_from_2())
-    print(test_get_n_choose_k())
-    print(test_get_leap_years())
-    print('''
-    1 -> Convertește un număr din baza 2 în baza 16.
-    2 -> Calculează combinări de n luate câte k.
-    3 -> Afișează toți anii bisecți între doi ani dați.
-    x -> Închide.
-    ''')
-    optiune = input('Alege una dintre opțiunile afișate mai sus: ')
-    if optiune == '1':
-        n = input('Atribuiți un număr în baza 2: ')
-        n1=int(n)
-        ok = True
-        while n1 != 0 and ok == True:
-            c = n1 % 10
-            if c > 1:
-                ok = False
-            n1 //= 10
-        if ok == True :
-            print(f'Numărul {n} din baza 2 convertit în baza 16 este: {get_base_16_from_2(n)}')
-        else :
-            print('Greșit! Dați un număr în baza 2 valid.')
-    elif optiune == '2':
-        n = int(input('Alegeți termenul n: '))
-        k = int(input('Alegeți termenul k: '))
-        if n >= k :
-            print(f'Rezultatul combinărilor de {n} luate câte {k} este: {get_n_choose_k(n, k)}.')
-        else :
-            print('Gresit! Termenul n trebuie să fie mai mare egal ca termenul k.')
-    elif optiune == '3':
-        an1 = int(input('Tastați primul an: '))
-        an2 = int(input('Tastați al doilea an: '))
-        if an1 <= an2 :
-            print(f'Lista anilor bisecti cuprinși între anii {an1} și {an2} este: {get_leap_years(an1, an2)}')
-        else :
-            print('Greșit! Atribuiți anii în ordine.')
-    elif optiune == 'x':
-        print('')
+    test_get_base_16_from_2()
+    test_get_n_choose_k()
+    test_get_leap_years()
+    while True:
+        print('''
+        1 -> Convertește un număr din baza 2 în baza 16.
+        2 -> Calculează combinări de n luate câte k.
+        3 -> Afișează toți anii bisecți între doi ani dați.
+        x -> Închide.
+        ''')
+        optiune = input('Alege una dintre opțiunile afișate mai sus: ')
+        if optiune == '1':
+            while True:
+                n = input('Atribuiți un număr în baza 2: ')
+                try:
+                    int(n,2)
+                    #Aici am folosit funcția block 'try: ... except: ...' pentru a putea verifica dacă string-ul introdus este un număr binar.
+                    print(f'Numărul {n} din baza 2 convertit în baza 16 este: {get_base_16_from_2(n)}')
+                    break
+                except:
+                    print('Greșit! Dați un număr în baza 2 valid.')
+
+        elif optiune == '2':
+            while True:
+                n = int(input('Alegeți termenul n: '))
+                k = int(input('Alegeți termenul k: '))
+                if n >= k :
+                    print(f'Rezultatul combinărilor de {n} luate câte {k} este: {get_n_choose_k(n, k)}.')
+                    break
+                else :
+                    print('Gresit! Termenul n trebuie să fie mai mare egal ca termenul k.')
+        elif optiune == '3':
+            while True:
+                an1 = int(input('Tastați primul an: '))
+                an2 = int(input('Tastați al doilea an: '))
+                if an1 <= an2 :
+                    print(f'Lista anilor bisecti cuprinși între anii {an1} și {an2} este: {get_leap_years(an1, an2)}')
+                    break
+                else :
+                    print('Greșit! Atribuiți anii în ordine.')
+        elif optiune == 'x':
+            break
+        else:
+            print('Opțiunea pe care ați ales-o nu există! Reîncercați.')
 if __name__ == '__main__':
     main()
